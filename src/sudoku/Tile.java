@@ -41,5 +41,7 @@ public class Tile {
 
     public void setValue(int value) {
         this.value = value;
+        if(value>0) free=false;
+        else free=true;
     }
 }

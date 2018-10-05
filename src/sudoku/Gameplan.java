@@ -71,6 +71,19 @@ public class Gameplan {
         return true;
     }
 
+    public Gameplan deepCopy() {
+        Gameplan gameplan = new Gameplan(null);
+
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                gameplan.getTile(row,col).setValue(this.getTile(row,col).getValue());
+                gameplan.getTile(row,col).setFree(this.getTile(row,col).isFree());
+            }
+        }
+
+        return gameplan;
+    }
+
     public Tile getTile(int row, int column) {
         return this.rows.get(row).getTile(column);
     }

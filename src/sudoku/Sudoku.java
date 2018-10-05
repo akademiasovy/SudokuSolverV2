@@ -135,7 +135,7 @@ public class Sudoku extends Canvas implements Runnable {
                             }
                         } else if (importButton.contains(this.mouseInput.getX(), this.mouseInput.getY())) {
                             try {
-                                this.gameplan.init("/sudokueasy.txt");
+                                this.gameplan.init("/sudoku.txt");
                             } catch (Exception ex) {ex.printStackTrace();}
                         } else if (solveButton.contains(this.mouseInput.getX(), this.mouseInput.getY())) {
                             this.yOffset = 75;
