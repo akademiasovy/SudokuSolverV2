@@ -15,13 +15,13 @@ public class Gameplan {
     private List<Column> columns;
     private List<Square> squares;
 
-    public Gameplan() {
+    public Gameplan(String fileName) {
         try {
-            this.init("/sudoku2.txt");
+            this.init(fileName);
         } catch (Exception ex) {ex.printStackTrace();}
     }
 
-    private void init(String name) throws Exception {
+    public void init(String name) throws Exception {
         this.rows = new ArrayList<>();
         this.columns = new ArrayList<>();
         this.squares = new ArrayList<>();
@@ -34,24 +34,41 @@ public class Gameplan {
 
         Tile[][] plan = new Tile[9][9];
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(Gameplan.class.getResourceAsStream(name)));
-        //BufferedReader br = new BufferedReader(new FileReader(Gameplan.class.getResource(name).toString()));
-        int row = 0;
-        String line;
-        while ((line = br.readLine()) != null && row < 9) {
-            for (int col = 0; col < line.length(); col++) {
-                plan[row][col] = new Tile(Integer.parseInt(String.valueOf(line.charAt(col))));
+        if (name != null) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(Gameplan.class.getResourceAsStream(name)));
+            int row = 0;
+            String line;
+            while ((line = br.readLine()) != null && row < 9) {
+                for (int col = 0; col < line.length(); col++) {
+                    plan[row][col] = new Tile(Integer.parseInt(String.valueOf(line.charAt(col))));
+                }
+                row++;
             }
-            row++;
+        } else {
+            for (int row = 0; row < 9; row++) {
+                for (int col = 0; col < 9; col++) {
+                    plan[row][col] = new Tile();
+                }
+            }
         }
 
-        for (row = 0; row < 9; row++) {
+
+        for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
                 this.rows.get(row).setTile(col, plan[row][col]);
                 this.columns.get(col).setTile(row, plan[row][col]);
                 this.squares.get((row/3)*3+col/3).setTile(row%3,col%3, plan[row][col]);
             }
         }
+    }
+
+    public boolean isSolved() {
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                if (this.getRow(row).getTile(col).isFree()) return false;
+            }
+        }
+        return true;
     }
 
     public Tile getTile(int row, int column) {

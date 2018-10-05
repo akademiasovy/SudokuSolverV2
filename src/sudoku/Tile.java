@@ -17,6 +17,16 @@ public class Tile {
         else if (this.value > 9) this.value = 9;
     }
 
+    public void nextVal() {
+        if (this.value == 9) {
+            this.value = 0;
+            this.free = true;
+        } else {
+            this.value++;
+            this.free = false;
+        }
+    }
+
     public boolean isFree() {
         return free;
     }

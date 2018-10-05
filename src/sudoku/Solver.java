@@ -1,9 +1,5 @@
 package sudoku;
 
-import sudoku.Gameplan;
-import sudoku.Tile;
-
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,21 +12,23 @@ public class Solver {
     }
 
     public void solve() {
+
+        if (this.gameplan.isSolved()) return;
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
                 if (this.gameplan.getTile(row,col).isFree()) {
                     Set<Integer> taken = new HashSet<>();
                     for (Tile t : this.gameplan.getRow(row).getTileList()) {
                         if (!t.isFree())
-                            taken.add(Integer.valueOf(t.getValue()));
+                            taken.add(t.getValue());
                     }
                     for (Tile t : this.gameplan.getColumn(col).getTileList()) {
                         if (!t.isFree())
-                            taken.add(Integer.valueOf(t.getValue()));
+                            taken.add(t.getValue());
                     }
                     for (Tile t : this.gameplan.getSquareFromTile(row, col).getTileList()) {
                         if (!t.isFree())
-                            taken.add(Integer.valueOf(t.getValue()));
+                            taken.add(t.getValue());
                     }
 
                     if (taken.size() == 8) {
@@ -42,12 +40,15 @@ public class Solver {
                                 break;
                             }
                         }
-                    } else if (taken.size() == 7) {
-                        System.out.println("row="+row+" | col="+col+" | 2 possible values");
+                    } else if (taken.size() == 9) {
+                        System.out.println("row="+row+" | col="+col+" | 0 possible values");
                     }
+
                 }
+
             }
         }
+
     }
 
 }
